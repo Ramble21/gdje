@@ -1,5 +1,7 @@
 package gd.Objects.Hazards;
 
+import gd.LevelMechanics;
+import gd.Main;
 import gd.Objects.Hazard;
 
 import java.awt.*;
@@ -7,9 +9,9 @@ import java.awt.*;
 public class DefaultSpike extends Hazard {
 
     protected static int LEN = 50;
-    protected static int HITBOX_LEN = 10;
-    protected static int HITBOX_HEIGHT = 25;
-    protected static int TOP_HEIGHT = 10; // the height of the little top peak of the spike that doesnt have a hitbox
+    protected static int HITBOX_LEN = 12;
+    protected static int HITBOX_HEIGHT = 24;
+    protected static int TOP_HEIGHT = 15; // the height of the little top peak of the spike that doesnt have a hitbox
     protected static int OUTLINE_LEN = 6;
 
     public DefaultSpike(int x, int y) {
@@ -35,6 +37,12 @@ public class DefaultSpike extends Hazard {
         int topLeftX = x + cameraX + ((LEN - HITBOX_LEN) / 2);
         int topLeftY = y + cameraY + TOP_HEIGHT;
         return new Rectangle(topLeftX, topLeftY, HITBOX_LEN, HITBOX_HEIGHT);
+    }
+
+    public void drawHitbox(Graphics g, int cameraX, int cameraY) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Main.HAZARD_COLOR);
+        g2.fill(Main.toOutline(getHazardHitbox(cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
     }
 
     @Override

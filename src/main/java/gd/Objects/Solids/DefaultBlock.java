@@ -1,5 +1,7 @@
 package gd.Objects.Solids;
 
+import gd.LevelMechanics;
+import gd.Main;
 import gd.Objects.Solid;
 
 import java.awt.*;
@@ -16,6 +18,12 @@ public class DefaultBlock extends Solid {
     @Override
     public Rectangle getSolidHitbox(int cameraX, int cameraY) {
         return new Rectangle(x + cameraX, y + cameraY, LEN, LEN);
+    }
+
+    public void drawHitbox(Graphics g, int cameraX, int cameraY) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Main.SOLID_COLOR);
+        g2.fill(Main.toOutline(getSolidHitbox(cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.Objects;
 public abstract class GameObject {
     public int x;
     public int y;
+    public boolean isDead = false;
 
     public GameObject(int x, int y) {
         this.x = x;
@@ -26,6 +27,7 @@ public abstract class GameObject {
     }
 
     public abstract void draw(Graphics g, int cameraX, int cameraY);
+    public abstract void drawHitbox(Graphics g, int cameraX, int cameraY);
     public abstract void update();
 
     @Override

@@ -1,6 +1,7 @@
 name: Test Level 1
 difficulty: Easy
-bg: 48 70 231
+song: StereoMadness
+bg: 37 50 190
 spawn: 600 840 BigCube
 
 obj DefaultSpike 1450 850
@@ -8,3 +9,6 @@ obj DefaultSpike 1500 850
 obj DefaultSpike 1550 850
 obj DefaultBlock 1800 850
 obj DefaultBlock 1800 800
+obj DefaultBlock 2400 850
+obj DefaultBlock 2400 800
+obj DefaultBlock 2400 750

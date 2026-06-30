@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
-public class BigCubePhysics implements Physics {
+public class BigCubePhysics extends Physics {
     private static final double GRAVITY = 1.2; // pixels per frame squared
     private static double JUMP_VELOCITY = -16; // // negative value = up (regular), positive value = reverse gravity
 
@@ -86,5 +86,16 @@ public class BigCubePhysics implements Physics {
         if (player.isTouchingGround()) {
             player.setVelocityY(JUMP_VELOCITY);
         }
+    }
+
+    @Override
+    public void draw(Graphics g, int x, int y, int cameraX, int cameraY) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.GREEN);
+        g2.fill(getP1Area(x, y, cameraX, cameraY));
+        g2.setColor(Color.CYAN);
+        g2.fill(getP2Area(x, y, cameraX, cameraY));
+        g2.setColor(Color.BLACK);
+        g2.fill(getBlackArea(x, y, cameraX, cameraY));
     }
 }

@@ -14,7 +14,7 @@ public class Player extends GameObject {
     private Solid groundBeingTouched = null;
     public Physics physics;
 
-    protected static int FPS = 165;
+    protected static int FPS = 60;
 
     public Player(int x, int y, Physics physics) {
         super(x, y);
@@ -50,15 +50,17 @@ public class Player extends GameObject {
         untouchGround();
     }
 
+    public void drawHitbox(Graphics g, int cameraX, int cameraY) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Main.HAZARD_COLOR);
+        g2.fill(Main.toOutline(physics.getHazardHitbox(x, y, cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
+        g2.setColor(Main.SOLID_COLOR);
+        g2.fill(Main.toOutline(physics.getSolidHitbox(x, y, cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
+    }
+
     @Override
     public void draw(Graphics g, int cameraX, int cameraY) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.GREEN);
-        g2.fill(physics.getP1Area(x, y, cameraX, cameraY));
-        g2.setColor(Color.CYAN);
-        g2.fill(physics.getP2Area(x, y, cameraX, cameraY));
-        g2.setColor(Color.BLACK);
-        g2.fill(physics.getBlackArea(x, y, cameraX, cameraY));
+        physics.draw(g, x, y, cameraX, cameraY);
     }
 
     @Override

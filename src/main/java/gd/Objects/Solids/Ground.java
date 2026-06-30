@@ -52,6 +52,11 @@ public class Ground extends Solid {
     }
 
     @Override
+    public void drawHitbox(Graphics g, int cameraX, int cameraY) {
+        draw(g, cameraX, cameraY);
+    }
+
+    @Override
     public void update() {
         return;
     }

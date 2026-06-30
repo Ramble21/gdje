@@ -12,27 +12,37 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LevelMechanics extends JPanel {
 
     public final Level level;
     private final Player player;
     private boolean firstFrame = true;
+    private int ixKillerObject = -1;
     public boolean p1Pressed = false;
     public int cameraX;
     public int cameraY;
 
     private final Timer logicTimer;
+    private final ArrayList<Timer> activeTimers = new ArrayList<>();
     private boolean gamePaused;
+
+    private final AudioPlayer songPlayer;
+    private final AudioPlayer deathSFXPlayer;
+    private final AudioPlayer newBestSFXPlayer;
 
     public static int SCREEN_WIDTH = 1920;
     public static int SCREEN_HEIGHT = 1080;
+    public static int RESPAWN_TIME = 500;
     public static int GROUND_Y = 900;
     public static int X_VELOCITY = 9;
     public static int COYOTE_PIXELS = 10;
+    public static int SHOD_OUTLINE = 4;
 
     private void handleCollisions() {
-        for (GameObject obj : level.objects) {
+        for (int i = 0; i < level.objects.size(); i++) {
+            GameObject obj = level.objects.get(i);
             if (obj instanceof Solid block) {
                 if (player.isTouchingGround(block)) {
                     if (player.x + COYOTE_PIXELS > block.x + cameraX + block.getHitboxLength()) {
@@ -50,25 +60,22 @@ public class LevelMechanics extends JPanel {
                         player.touchGround(block);
                     }
                     if (player.physics.getSolidHitbox(player.getX(), player.getY(), cameraX, cameraY).intersects(block.getSolidHitbox(cameraX, cameraY))) {
-                        killPlayer();
+                        player.isDead = true;
+                        obj.isDead = true;
+                        ixKillerObject = i;
+                        return;
                     }
                 }
             }
             else if (obj instanceof Hazard hazard) {
                 if (player.physics.getHazardHitbox(player.getX(), player.getY(), cameraX, cameraY).intersects(hazard.getHazardHitbox(cameraX, cameraY))) {
-                    killPlayer();
+                    player.isDead = true;
+                    obj.isDead = true;
+                    ixKillerObject = i;
+                    return;
                 }
             }
         }
-    }
-
-    private void killPlayer() {
-        player.untouchGround();
-        player.setX(level.spawnX);
-        player.setY(level.spawnY);
-        player.setVelocityY(0);
-        cameraX = 0;
-        cameraY = 0;
     }
 
     public LevelMechanics(int levelId) throws IOException {
@@ -80,7 +87,12 @@ public class LevelMechanics extends JPanel {
         cameraX = 0;
         cameraY = 0;
 
-        setBackground(Color.BLUE);
+        songPlayer = new AudioPlayer("audio/" + level.songName + ".wav");
+        deathSFXPlayer = new AudioPlayer("audio/explode_11.wav");
+        newBestSFXPlayer = new AudioPlayer("audio/magicExplosion.wav");
+        songPlayer.play(false);
+
+        setBackground(level.bgColor);
         setFocusable(true);
 
         addKeyListener(new KeyAdapter() {
@@ -90,15 +102,22 @@ public class LevelMechanics extends JPanel {
                     p1Pressed = true;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_R) {
-                    killPlayer();
+                    player.isDead = true;
+                    ixKillerObject = -1;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     gamePaused = !gamePaused;
                     if (gamePaused) {
-                        logicTimer.stop();
+                        for (Timer t : activeTimers) {
+                            t.stop();
+                        }
+                        songPlayer.pause();
                     }
                     else {
-                        logicTimer.start();
+                        for (Timer t : activeTimers) {
+                            t.start();
+                        }
+                        songPlayer.resume();
                     }
                 }
             }
@@ -126,6 +145,7 @@ public class LevelMechanics extends JPanel {
         });
 
         logicTimer = getLogicTimer();
+        activeTimers.add(logicTimer);
         logicTimer.start();
     }
 
@@ -144,18 +164,63 @@ public class LevelMechanics extends JPanel {
                 obj.update();
             }
             handleCollisions();
-            repaint();
+            if (player.isDead) {
+                logicTimer.stop();
+                deathSFXPlayer.play(false);
+                songPlayer.stop();
+                paintImmediately(0, 0, getWidth(), getHeight());
+                Timer respawnTimer = getRespawnTimer();
+                activeTimers.remove(logicTimer);
+                activeTimers.add(respawnTimer);
+                respawnTimer.start();
+            }
+            else {
+                repaint();
+            }
         });
+    }
+
+    private Timer getRespawnTimer() {
+        Timer respawnTimer = new Timer(RESPAWN_TIME, e -> {
+            player.isDead = false;
+            if (ixKillerObject != -1) {
+                level.objects.get(ixKillerObject).isDead = false;
+            }
+            player.setX(level.spawnX);
+            player.setY(level.spawnY);
+            player.untouchGround();
+            player.setVelocityY(0);
+            cameraX = 0;
+            cameraY = 0;
+            ixKillerObject = -1;
+            activeTimers.remove((Timer) e.getSource());
+            activeTimers.add(logicTimer);
+            songPlayer.play(false);
+            logicTimer.start();
+        });
+        respawnTimer.setRepeats(false);
+        return respawnTimer;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (GameObject obj : level.objects) {
-            obj.draw(g, cameraX, cameraY);
+
+        for (int i = 0; i < level.objects.size(); i++) {
+            GameObject obj = level.objects.get(i);
+            if (player.isDead && i == ixKillerObject) {
+                obj.draw(g, cameraX, cameraY);
+                obj.drawHitbox(g, cameraX, cameraY);
+            }
+            else if (!(obj instanceof Player && player.isDead)) {
+                obj.draw(g, cameraX, cameraY);
+            }
         }
         for (GameObject obj : level.deco) {
             obj.draw(g, cameraX, cameraY);
+        }
+        if (player.isDead) {
+            player.drawHitbox(g, cameraX, cameraY);
         }
     }
 }
