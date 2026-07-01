@@ -5,6 +5,7 @@ import gd.Objects.GameObject;
 import gd.Objects.Hazards.DefaultSpike;
 import gd.Objects.Hazards.HalfSpike;
 import gd.Objects.Solids.DefaultBlock;
+import gd.Objects.Solids.DefaultSlab;
 import gd.Physics.Physics;
 
 import java.awt.*;
@@ -65,6 +66,7 @@ public class Level {
             case "DefaultBlock" -> new DefaultBlock(x, y);
             case "DefaultSpike" -> new DefaultSpike(x, y);
             case "HalfSpike" -> new HalfSpike(x, y);
+            case "DefaultSlab" -> new DefaultSlab(x, y);
             default -> null;
         };
     }

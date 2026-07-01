@@ -7,11 +7,11 @@ import gd.Objects.Solid;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class DefaultBlock extends Block {
+public class DefaultSlab extends Slab {
 
     protected static int OUTLINE_LEN = 6;
 
-    public DefaultBlock(double x, double y) {
+    public DefaultSlab(double x, double y) {
         super(x, y);
     }
 
@@ -28,7 +28,6 @@ public class DefaultBlock extends Block {
         Shape solid = getSolidHitbox(cameraX, cameraY);
         Rectangle bounds = solid.getBounds();
 
-        // weird shit in order to get a gradient, I have no idea how this works cus I copied it from ChatGPT
         Color top = new Color(0, 0, 0, 255);
         Color bottom = new Color(0, 0, 0, 96);
         float[] fractions = {0f, 1f};

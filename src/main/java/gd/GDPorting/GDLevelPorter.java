@@ -28,7 +28,7 @@ public class GDLevelPorter {
             Map.entry(29, "BackgroundTrigger"),
             Map.entry(30, "GroundTrigger"),
             Map.entry(39, "HalfSpike"),
-            Map.entry(40, "HalfSlab"),
+            Map.entry(40, "DefaultSlab"),
             Map.entry(41, "ChainXL"),
             Map.entry(54, "PulseStar"),
             Map.entry(62, "SwirlSlab"),
@@ -40,7 +40,7 @@ public class GDLevelPorter {
     private static final HashMap<String, Integer> nameToJEID = new HashMap<>(Map.ofEntries(
             Map.entry("DefaultBlock", 1),
             Map.entry("DefaultSpike", 2),
-            Map.entry("HalfSlab", 3),
+            Map.entry("DefaultSlab", 3),
             Map.entry("HalfSpike", 4),
             Map.entry("GroundHazard", 5),
             Map.entry("Block1Full", 6),
@@ -88,7 +88,12 @@ public class GDLevelPorter {
     public static List<GDObject> parseObjects(String innerLevelString) {
         List<GDObject> objects = new ArrayList<>();
         for (String raw : extractObjectStrings(innerLevelString)) {
-            objects.add(new GDObject(parseObjectProperties(raw)));
+            GDObject obj = new GDObject(parseObjectProperties(raw));
+            if (obj.getId() == 40 || obj.getId() == 62 || obj.getId() == 65) {
+                // robtop being stupid with slabs
+                obj.setY((int) (obj.getY() - 7));
+            }
+            objects.add(obj);
         }
         return objects;
     }
@@ -141,6 +146,10 @@ public class GDLevelPorter {
         @Override
         public String toString() {
             return "GDObject" + props;
+        }
+
+        public void setY(int i) {
+            props.put(3, Integer.toString(i));
         }
     }
 
