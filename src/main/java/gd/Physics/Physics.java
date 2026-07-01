@@ -19,6 +19,12 @@ public abstract class Physics {
     public abstract Area getBlackArea(double x, double y, double cameraX, double cameraY);
     public abstract void draw(Graphics g, double x, double y, double cameraX, double cameraY);
 
+    public final Rectangle2D.Double getHazardHitboxFinal(double x, double y, double cameraX, double cameraY) {
+        return getHazardHitbox(x, y, cameraX, cameraY);
+    }
+    public final Rectangle2D.Double getSolidHitboxFinal(double x, double y, double cameraX, double cameraY) {
+        return getHazardHitbox(x, y, cameraX, cameraY);
+    }
 
     public static Physics getPhysics(String gamemode) {
         return switch (gamemode) {

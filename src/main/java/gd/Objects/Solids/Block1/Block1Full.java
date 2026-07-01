@@ -1,5 +1,6 @@
 package gd.Objects.Solids.Block1;
 
+import gd.ObjRotationInfo;
 import gd.Objects.Solids.Block;
 
 import java.awt.*;
@@ -13,8 +14,8 @@ public class Block1Full extends Block {
     protected static final Color c4 = new Color(0, 0, 0, 255);
     protected static final double HALF_LEN_OUTLINE = (double) OUTLINE_LEN / 2;
 
-    public Block1Full(double x, double y) {
-        super(x, y);
+    public Block1Full(double x, double y, ObjRotationInfo objRotationInfo) {
+        super(x, y, objRotationInfo);
     }
 
     @Override

@@ -2,18 +2,21 @@ package gd.Objects.Solids;
 
 import gd.LevelMechanics;
 import gd.Main;
+import gd.ObjRotationInfo;
 import gd.Objects.Solid;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import static gd.LevelMechanics.GRID_SIZE;
+
 public abstract class Block extends Solid {
 
-    protected static int LEN = 50;
+    protected static int LEN = GRID_SIZE;
     protected static final int OUTLINE_LEN = 6;
 
-    public Block(double x, double y) {
-        super(x, y);
+    public Block(double x, double y, ObjRotationInfo objRotationInfo) {
+        super(x, y, objRotationInfo);
     }
 
     @Override

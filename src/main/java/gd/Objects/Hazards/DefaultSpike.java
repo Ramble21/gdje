@@ -2,21 +2,24 @@ package gd.Objects.Hazards;
 
 import gd.LevelMechanics;
 import gd.Main;
+import gd.ObjRotationInfo;
 import gd.Objects.Hazard;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import static gd.LevelMechanics.GRID_SIZE;
+
 public class DefaultSpike extends Hazard {
 
-    protected static int LEN = 50;
+    protected static int LEN = GRID_SIZE;
     protected static int HITBOX_LEN = 12;
     protected static int HITBOX_HEIGHT = 24;
     protected static int TOP_HEIGHT = 15; // the height of the little top peak of the spike that doesn't have a hitbox
     protected static int OUTLINE_LEN = 6;
 
-    public DefaultSpike(double x, double y) {
-        super(x, y);
+    public DefaultSpike(double x, double y, ObjRotationInfo objRotationInfo) {
+        super(x, y, objRotationInfo);
     }
 
     private Polygon getTriangle(double cameraX, double cameraY) {
@@ -72,4 +75,5 @@ public class DefaultSpike extends Hazard {
     public void update() {
         return;
     }
+
 }

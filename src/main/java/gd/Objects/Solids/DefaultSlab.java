@@ -2,6 +2,7 @@ package gd.Objects.Solids;
 
 import gd.LevelMechanics;
 import gd.Main;
+import gd.ObjRotationInfo;
 import gd.Objects.Solid;
 
 import java.awt.*;
@@ -11,8 +12,8 @@ public class DefaultSlab extends Slab {
 
     protected static int OUTLINE_LEN = 6;
 
-    public DefaultSlab(double x, double y) {
-        super(x, y);
+    public DefaultSlab(double x, double y, ObjRotationInfo objRotationInfo) {
+        super(x, y, objRotationInfo);
     }
 
     public void drawHitbox(Graphics g, double cameraX, double cameraY) {

@@ -2,20 +2,23 @@ package gd.Objects.Hazards;
 
 import gd.LevelMechanics;
 import gd.Main;
+import gd.ObjRotationInfo;
 import gd.Objects.Hazard;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import static gd.LevelMechanics.GRID_SIZE;
+
 public class HalfSpike extends Hazard {
 
-    protected static int LEN = 50;
+    protected static int LEN = GRID_SIZE;
     protected static int HITBOX_LEN = 12;
     protected static int HITBOX_HEIGHT = 12;
     protected static int OUTLINE_LEN = 6;
 
-    public HalfSpike(double x, double y) {
-        super(x, y);
+    public HalfSpike(double x, double y, ObjRotationInfo objRotationInfo) {
+        super(x, y, objRotationInfo);
     }
 
     private Polygon getTriangle(double cameraX, double cameraY) {

@@ -15,7 +15,7 @@ public class Player extends GameObject {
     public Physics physics;
 
     public Player(double x, double y, Physics physics) {
-        super(x, y);
+        super(x, y, new ObjRotationInfo(false, false, 0));
         this.previousY = y;
         this.physics = physics;
     }

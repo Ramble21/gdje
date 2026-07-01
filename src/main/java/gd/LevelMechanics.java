@@ -38,11 +38,13 @@ public class LevelMechanics extends JPanel {
 
     private static Thread gameThread;
     public static final double PHYSICS_TPS = 240;
+    public static final double FPS = 180;
     public static final double NS_PER_TICK = 1_000_000_000 / PHYSICS_TPS;
 
+    public static final int GRID_SIZE = 50;
     public static final int RESPAWN_TIME = 500;
     public static final int GROUND_Y = 900;
-    public static final double X_VELOCITY = 2.125;
+    public static final double X_VELOCITY = 2.17;
     public static final int COYOTE_PIXELS = 10;
     public static final int SHOD_OUTLINE = 4;
 
@@ -56,7 +58,7 @@ public class LevelMechanics extends JPanel {
                         player.setVelocityY(0);
                     }
                 }
-                else if (player.physics.getHazardHitbox(player.getX(), player.getY(), cameraX, cameraY).intersects(block.getSolidHitbox(cameraX, cameraY))) {
+                else if (player.physics.getHazardHitboxFinal(player.getX(), player.getY(), cameraX, cameraY).intersects(block.getSolidHitboxFinal(cameraX, cameraY))) {
                     if (player.y <= player.previousY && player.physics.isFlippedGravity() && player.previousY >= block.y + block.getHitboxHeight()) {
                         player.y = block.y + block.getHitboxHeight();
                         player.touchGround(block);
@@ -65,7 +67,7 @@ public class LevelMechanics extends JPanel {
                         player.y = block.y - player.physics.getHitboxHeight();
                         player.touchGround(block);
                     }
-                    if (player.physics.getSolidHitbox(player.getX(), player.getY(), cameraX, cameraY).intersects(block.getSolidHitbox(cameraX, cameraY))) {
+                    if (player.physics.getSolidHitboxFinal(player.getX(), player.getY(), cameraX, cameraY).intersects(block.getSolidHitboxFinal(cameraX, cameraY))) {
                         player.isDead = true;
                         obj.isDead = true;
                         ixKillerObject = i;
@@ -74,7 +76,7 @@ public class LevelMechanics extends JPanel {
                 }
             }
             else if (obj instanceof Hazard hazard) {
-                if (player.physics.getHazardHitbox(player.getX(), player.getY(), cameraX, cameraY).intersects(hazard.getHazardHitbox(cameraX, cameraY))) {
+                if (player.physics.getHazardHitboxFinal(player.getX(), player.getY(), cameraX, cameraY).intersects(hazard.getHazardHitboxFinal(cameraX, cameraY))) {
                     player.isDead = true;
                     obj.isDead = true;
                     ixKillerObject = i;
@@ -182,7 +184,7 @@ public class LevelMechanics extends JPanel {
                 repaint();
             }
             try {
-                Thread.sleep(1);
+                Thread.sleep((long) (1000 / FPS));
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 running = false;
@@ -244,18 +246,18 @@ public class LevelMechanics extends JPanel {
         for (int i = 0; i < level.objects.size(); i++) {
             GameObject obj = level.objects.get(i);
             if (player.isDead && i == ixKillerObject) {
-                obj.draw(g, cameraX, cameraY);
-                obj.drawHitbox(g, cameraX, cameraY);
+                obj.drawFinal(g, cameraX, cameraY);
+                obj.drawHitboxFinal(g, cameraX, cameraY);
             }
             else if (!(obj instanceof Player && player.isDead)) {
-                obj.draw(g, cameraX, cameraY);
+                obj.drawFinal(g, cameraX, cameraY);
             }
         }
         for (GameObject obj : level.deco) {
-            obj.draw(g, cameraX, cameraY);
+            obj.drawFinal(g, cameraX, cameraY);
         }
         if (player.isDead) {
-            player.drawHitbox(g, cameraX, cameraY);
+            player.drawHitboxFinal(g, cameraX, cameraY);
         }
         if (gamePaused) {
             paintText(g, "Pusab", Color.WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);

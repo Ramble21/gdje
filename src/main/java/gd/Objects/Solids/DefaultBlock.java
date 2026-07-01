@@ -2,6 +2,7 @@ package gd.Objects.Solids;
 
 import gd.LevelMechanics;
 import gd.Main;
+import gd.ObjRotationInfo;
 import gd.Objects.Solid;
 
 import java.awt.*;
@@ -9,8 +10,8 @@ import java.awt.geom.Rectangle2D;
 
 public class DefaultBlock extends Block {
 
-    public DefaultBlock(double x, double y) {
-        super(x, y);
+    public DefaultBlock(double x, double y, ObjRotationInfo objRotationInfo) {
+        super(x, y, objRotationInfo);
     }
 
     @Override

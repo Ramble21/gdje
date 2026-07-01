@@ -1,6 +1,7 @@
 package gd.Objects.Solids;
 
 import gd.LevelMechanics;
+import gd.ObjRotationInfo;
 import gd.Objects.Solid;
 
 import java.awt.*;
@@ -14,7 +15,7 @@ public class Ground extends Solid {
     protected LevelMechanics levMec;
 
     public Ground(double y, LevelMechanics levMec, boolean isCeiling) {
-        super(0, y);
+        super(0, y, new ObjRotationInfo(false, isCeiling, 0));
         this.isCeiling = isCeiling;
         this.levMec = levMec;
     }

@@ -45,8 +45,8 @@ public class Level {
             if (jeid == -1) {
                 continue;
             }
-            boolean h = arr[4].equals("h0");
-            boolean v = arr[5].equals("v0");
+            boolean h = arr[4].equals("h1");
+            boolean v = arr[5].equals("v1");
             GameObject obj = getObject(jeid, Integer.parseInt(arr[2]), Integer.parseInt(arr[3]), h, v, Integer.parseInt(arr[6].substring(1)));
             if (obj != null) {
                 if (arr[0].equals("obj")) {
@@ -60,18 +60,20 @@ public class Level {
 
 
 
-    private GameObject getObject(int jeid, int x, int y, boolean flippedHoriz, boolean flippedVertic, int degreesRotated) {
+    private GameObject getObject(int jeid, int x, int y, boolean fh, boolean fv, int dr) {
         String name = GDLevelPorter.JEIDToName.get(jeid);
+        ObjRotationInfo i = new ObjRotationInfo(fh, fv, dr);
         return switch (name) {
-            case "DefaultBlock" -> new DefaultBlock(x, y);
-            case "DefaultSpike" -> new DefaultSpike(x, y);
-            case "HalfSpike" -> new HalfSpike(x, y);
-            case "DefaultSlab" -> new DefaultSlab(x, y);
-            case "Block1Full" -> new Block1Full(x, y);
-            case "Block1Corner" -> new Block1Corner(x, y);
-            case "Block1Angle" -> new Block1Angle(x, y);
-            case "Block1Sides" -> new Block1Sides(x, y);
-            case "Block1Edge" -> new Block1Edge(x, y);
+            case "DefaultBlock" -> new DefaultBlock(x, y, i);
+            case "DefaultSpike" -> new DefaultSpike(x, y, i);
+            case "HalfSpike" -> new HalfSpike(x, y, i);
+            case "DefaultSlab" -> new DefaultSlab(x, y, i);
+            case "Block1Full" -> new Block1Full(x, y, i);
+            case "Block1Corner" -> new Block1Corner(x, y, i);
+            case "Block1Angle" -> new Block1Angle(x, y, i);
+            case "Block1Sides" -> new Block1Sides(x, y, i);
+            case "Block1Edge" -> new Block1Edge(x, y, i);
+            case "Block1U" -> new Block1U(x, y, i);
             default -> null;
         };
     }

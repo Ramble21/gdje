@@ -1,5 +1,6 @@
 package gd.Objects.Solids.Block1;
 
+import gd.ObjRotationInfo;
 import gd.Objects.Solids.Block;
 
 import java.awt.*;
@@ -9,8 +10,8 @@ import static gd.Objects.Solids.Block1.Block1Full.*;
 
 public class Block1Corner extends Block {
 
-    public Block1Corner(double x, double y) {
-        super(x, y);
+    public Block1Corner(double x, double y, ObjRotationInfo objRotationInfo) {
+        super(x, y, objRotationInfo);
     }
 
     @Override

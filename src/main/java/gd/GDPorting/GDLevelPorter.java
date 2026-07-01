@@ -10,7 +10,7 @@ public class GDLevelPorter {
             Map.entry(3, "Block1Angle"),
             Map.entry(4, "Block1Corner"),
             Map.entry(5, "Block1Empty"),
-            Map.entry(6, "Block1Full"),
+            Map.entry(6, "Block1U"),
             Map.entry(7, "Block1Sides"),
             Map.entry(8, "DefaultSpike"),
             Map.entry(9, "GroundHazard"),
@@ -33,6 +33,7 @@ public class GDLevelPorter {
             Map.entry(54, "PulseStar"),
             Map.entry(62, "SwirlSlab"),
             Map.entry(65, "SwirlSlabHalf"),
+            Map.entry(83, "Block1Full"),
             Map.entry(103, "SmallSpike"),
             Map.entry(1329, "Coin")
     ));
@@ -43,7 +44,7 @@ public class GDLevelPorter {
             Map.entry("DefaultSlab", 3),
             Map.entry("HalfSpike", 4),
             Map.entry("GroundHazard", 5),
-            Map.entry("Block1Full", 6),
+            Map.entry("Block1U", 6),
             Map.entry("Block1Edge", 7),
             Map.entry("Block1Angle", 8),
             Map.entry("Block1Sides", 9),
@@ -56,6 +57,7 @@ public class GDLevelPorter {
             Map.entry("Coin", 67),
             Map.entry("SwirlSlab", 72),
             Map.entry("SwirlSlabHalf", 73),
+            Map.entry("Block1Full", 74),
             Map.entry("Block1Empty", 1001),
             Map.entry("SpikeDecoS", 1010),
             Map.entry("SpikeDecoM", 1011),

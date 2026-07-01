@@ -1,16 +1,19 @@
 package gd.Objects.Solids;
 
+import gd.ObjRotationInfo;
 import gd.Objects.Solid;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import static gd.LevelMechanics.GRID_SIZE;
+
 public abstract class Slab extends Solid {
 
-    protected static int LEN = 50;
+    protected static int LEN = GRID_SIZE;
 
-    public Slab(double x, double y) {
-        super(x, y);
+    public Slab(double x, double y, ObjRotationInfo objRotationInfo) {
+        super(x, y, objRotationInfo);
     }
 
     @Override

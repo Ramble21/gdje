@@ -6,13 +6,15 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
+import static gd.LevelMechanics.GRID_SIZE;
+
 public class BigCubePhysics extends Physics {
-    private static final double RISE_GRAVITY = 0.075; // gravity values are in pixels per frame squared
-    private static final double FALL_GRAVITY = 0.095;
+    private static final double RISE_GRAVITY = 0.078; // gravity values are in pixels per frame squared
+    private static final double FALL_GRAVITY = 0.098;
     private static double JUMP_VELOCITY = -4.25; // // negative value = up (regular), positive value = reverse gravity
 
     protected static int OUTLINE_LEN = 1;
-    protected static int HAZARD_LEN = 50;
+    protected static int HAZARD_LEN = GRID_SIZE;
     protected static int OUTER_SQ_LEN = 30;
     protected static int SOLID_LEN = 15;
 
