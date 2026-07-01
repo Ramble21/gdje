@@ -18,12 +18,12 @@ public class Main extends JPanel {
         frame.setSize(LevelMechanics.SCREEN_WIDTH, LevelMechanics.SCREEN_HEIGHT);
         frame.add(panel);
         frame.setVisible(true);
-        try {
-            GDLevelPorter.createTxt("CCLocalLevels.dat", "Stereo Madness 2");
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            GDLevelPorter.createTxt("CCLocalLevels.dat", "Stereo Madness 2");
+//        }
+//        catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public static Area toOutline(Rectangle2D.Double rect, int thickness) {

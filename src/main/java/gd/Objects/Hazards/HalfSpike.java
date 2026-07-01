@@ -12,7 +12,6 @@ public class HalfSpike extends Hazard {
     protected static int LEN = 50;
     protected static int HITBOX_LEN = 12;
     protected static int HITBOX_HEIGHT = 12;
-    protected static int TOP_HEIGHT = 39;
     protected static int OUTLINE_LEN = 6;
 
     public HalfSpike(double x, double y) {

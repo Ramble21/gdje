@@ -4,6 +4,7 @@ import gd.GDPorting.GDLevelPorter;
 import gd.Objects.GameObject;
 import gd.Objects.Hazards.DefaultSpike;
 import gd.Objects.Hazards.HalfSpike;
+import gd.Objects.Solids.Block1.*;
 import gd.Objects.Solids.DefaultBlock;
 import gd.Objects.Solids.DefaultSlab;
 import gd.Physics.Physics;
@@ -14,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Level {
     protected final String name;
@@ -67,6 +67,11 @@ public class Level {
             case "DefaultSpike" -> new DefaultSpike(x, y);
             case "HalfSpike" -> new HalfSpike(x, y);
             case "DefaultSlab" -> new DefaultSlab(x, y);
+            case "Block1Full" -> new Block1Full(x, y);
+            case "Block1Corner" -> new Block1Corner(x, y);
+            case "Block1Angle" -> new Block1Angle(x, y);
+            case "Block1Sides" -> new Block1Sides(x, y);
+            case "Block1Edge" -> new Block1Edge(x, y);
             default -> null;
         };
     }

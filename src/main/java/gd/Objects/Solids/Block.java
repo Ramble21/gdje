@@ -1,5 +1,7 @@
 package gd.Objects.Solids;
 
+import gd.LevelMechanics;
+import gd.Main;
 import gd.Objects.Solid;
 
 import java.awt.*;
@@ -8,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 public abstract class Block extends Solid {
 
     protected static int LEN = 50;
+    protected static final int OUTLINE_LEN = 6;
 
     public Block(double x, double y) {
         super(x, y);
@@ -19,7 +22,11 @@ public abstract class Block extends Solid {
     }
 
     @Override
-    public abstract void drawHitbox(Graphics g, double cameraX, double cameraY);
+    public void drawHitbox(Graphics g, double cameraX, double cameraY) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Main.SOLID_COLOR);
+        g2.fill(Main.toOutline(getSolidHitbox(cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
+    }
 
     @Override
     public double getHitboxHeight() {

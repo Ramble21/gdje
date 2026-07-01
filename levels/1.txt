@@ -4,6 +4,7 @@ song: StereoMadness
 bg: 37 50 190
 spawn: 600 840 BigCube
 
+obj 7 825 650 h0 v0 d0
 trig 2001 825 650 h0 v0 d0
 trig 2002 825 600 h0 v0 d0
 obj 2 1475 850 h0 v0 d0
@@ -2295,7 +2296,3 @@ obj 7 44475 150 h0 v1 d0
 obj 8 44525 150 h0 v0 d180
 obj 67 44475 250 h0 v0 d0
 obj 1 44525 350 h0 v0 d0
-obj 2 1313 850 h0 v0 d0
-obj 2 1235 850 h0 v0 d0
-obj 2 1275 850 h0 v0 d0
-obj 2 1195 850 h0 v0 d0

@@ -9,16 +9,8 @@ import java.awt.geom.Rectangle2D;
 
 public class DefaultBlock extends Block {
 
-    protected static int OUTLINE_LEN = 6;
-
     public DefaultBlock(double x, double y) {
         super(x, y);
-    }
-
-    public void drawHitbox(Graphics g, double cameraX, double cameraY) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Main.SOLID_COLOR);
-        g2.fill(Main.toOutline(getSolidHitbox(cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
     }
 
     @Override

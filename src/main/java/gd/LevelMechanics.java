@@ -42,7 +42,7 @@ public class LevelMechanics extends JPanel {
 
     public static final int RESPAWN_TIME = 500;
     public static final int GROUND_Y = 900;
-    public static final double X_VELOCITY = 2.15;
+    public static final double X_VELOCITY = 2.125;
     public static final int COYOTE_PIXELS = 10;
     public static final int SHOD_OUTLINE = 4;
 
@@ -123,7 +123,9 @@ public class LevelMechanics extends JPanel {
                         for (Timer t : activeTimers) {
                             t.start();
                         }
-                        songPlayer.resume();
+                        if (!player.isDead) {
+                            songPlayer.resume();
+                        }
                     }
                     repaint();
                 }
