@@ -3,6 +3,7 @@ package gd;
 import gd.GDPorting.GDLevelPorter;
 import gd.Objects.GameObject;
 import gd.Objects.Hazards.DefaultSpike;
+import gd.Objects.Hazards.HalfSpike;
 import gd.Objects.Solids.DefaultBlock;
 import gd.Physics.Physics;
 
@@ -63,6 +64,7 @@ public class Level {
         return switch (name) {
             case "DefaultBlock" -> new DefaultBlock(x, y);
             case "DefaultSpike" -> new DefaultSpike(x, y);
+            case "HalfSpike" -> new HalfSpike(x, y);
             default -> null;
         };
     }

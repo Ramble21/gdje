@@ -8,6 +8,7 @@ public class GDLevelPorter {
             Map.entry(1, "DefaultBlock"),
             Map.entry(2, "Block1Edge"),
             Map.entry(3, "Block1Angle"),
+            Map.entry(4, "Block1Corner"),
             Map.entry(5, "Block1Empty"),
             Map.entry(6, "Block1Full"),
             Map.entry(7, "Block1Sides"),
@@ -16,22 +17,59 @@ public class GDLevelPorter {
             Map.entry(10, "PortalGravityP"),
             Map.entry(11, "PortalGravityN"),
             Map.entry(12, "PortalCube"),
-            Map.entry(13, "PortalShip")
+            Map.entry(13, "PortalShip"),
+            Map.entry(15, "PulseRodL"),
+            Map.entry(16, "PulseRodM"),
+            Map.entry(17, "PulseRodS"),
+            Map.entry(18, "SpikeDecoXL"),
+            Map.entry(19, "SpikeDecoL"),
+            Map.entry(20, "SpikeDecoM"),
+            Map.entry(21, "SpikeDecoS"),
+            Map.entry(29, "BackgroundTrigger"),
+            Map.entry(30, "GroundTrigger"),
+            Map.entry(39, "HalfSpike"),
+            Map.entry(40, "HalfSlab"),
+            Map.entry(41, "ChainXL"),
+            Map.entry(54, "PulseStar"),
+            Map.entry(62, "SwirlSlab"),
+            Map.entry(65, "SwirlSlabHalf"),
+            Map.entry(103, "SmallSpike"),
+            Map.entry(1329, "Coin")
     ));
+
     private static final HashMap<String, Integer> nameToJEID = new HashMap<>(Map.ofEntries(
             Map.entry("DefaultBlock", 1),
             Map.entry("DefaultSpike", 2),
-            Map.entry("GroundHazard", 3),
-            Map.entry("Block1Full", 4),
-            Map.entry("Block1Edge", 5),
-            Map.entry("Block1Angle", 6),
-            Map.entry("Block1Sides", 7),
-            Map.entry("PortalGravityP", 10),
-            Map.entry("PortalGravityN", 11),
-            Map.entry("PortalCube", 12),
-            Map.entry("PortalShip", 13),
-            Map.entry("Block1Empty", 1001)
+            Map.entry("HalfSlab", 3),
+            Map.entry("HalfSpike", 4),
+            Map.entry("GroundHazard", 5),
+            Map.entry("Block1Full", 6),
+            Map.entry("Block1Edge", 7),
+            Map.entry("Block1Angle", 8),
+            Map.entry("Block1Sides", 9),
+            Map.entry("Block1Corner", 10),
+            Map.entry("PortalGravityP", 11),
+            Map.entry("PortalGravityN", 12),
+            Map.entry("PortalCube", 13),
+            Map.entry("PortalShip", 14),
+            Map.entry("SmallSpike", 30),
+            Map.entry("Coin", 67),
+            Map.entry("SwirlSlab", 72),
+            Map.entry("SwirlSlabHalf", 73),
+            Map.entry("Block1Empty", 1001),
+            Map.entry("SpikeDecoS", 1010),
+            Map.entry("SpikeDecoM", 1011),
+            Map.entry("SpikeDecoL", 1012),
+            Map.entry("SpikeDecoXL", 1013),
+            Map.entry("PulseRodS", 1014),
+            Map.entry("PulseRodM", 1015),
+            Map.entry("PulseRodL", 1016),
+            Map.entry("ChainXL", 1020),
+            Map.entry("PulseStar", 1021),
+            Map.entry("BackgroundTrigger", 2001),
+            Map.entry("GroundTrigger", 2002)
     ));
+
     public static final Map<Integer, String> JEIDToName =
             nameToJEID.entrySet().stream()
                     .collect(Collectors.toUnmodifiableMap(
@@ -89,14 +127,9 @@ public class GDLevelPorter {
             return Double.parseDouble(props.getOrDefault(6, "0"));
         }
 
-        public int getCardinalRotation() {
-            long rounded = Math.round(getRotation() / 90.0) * 90;
-            return (int) (((rounded % 360) + 360) % 360);
-        }
-
         public String getGDJEString() {
             int jeid = nameToJEID.getOrDefault(GDIDtoName.getOrDefault(getId(), null), -1);
-            String type = jeid < 1000 ? "obj" : "deco";
+            String type = jeid < 0 ? "nan~" + getId() : jeid < 1000 ? "obj" : jeid < 2000 ? "deco" : "trig";
             int x = convertX((int) getX());
             int y = convertY((int) getY());
             String ifh = isFlippedHorizontally() ? "h1" : "h0";

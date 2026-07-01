@@ -262,8 +262,8 @@ public class LevelMechanics extends JPanel {
 
     public static void paintText(Graphics g, String font, Color color, int x, int y) {
         Graphics2D g2 = (Graphics2D) g;
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Pusab", Font.PLAIN, 72));
+        g.setColor(color);
+        g.setFont(new Font(font, Font.PLAIN, 72));
         String text = "Game Paused";
 
         FontMetrics metrics = g2.getFontMetrics();

@@ -7,15 +7,15 @@ import gd.Objects.Hazard;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class DefaultSpike extends Hazard {
+public class HalfSpike extends Hazard {
 
     protected static int LEN = 50;
     protected static int HITBOX_LEN = 12;
-    protected static int HITBOX_HEIGHT = 24;
-    protected static int TOP_HEIGHT = 15; // the height of the little top peak of the spike that doesn't have a hitbox
+    protected static int HITBOX_HEIGHT = 12;
+    protected static int TOP_HEIGHT = 39;
     protected static int OUTLINE_LEN = 6;
 
-    public DefaultSpike(double x, double y) {
+    public HalfSpike(double x, double y) {
         super(x, y);
     }
 
@@ -26,9 +26,9 @@ public class DefaultSpike extends Hazard {
                 (int) (x + LEN + cameraX)
         };
         int[] yPoints = {
-                (int) (y + LEN + cameraY),
-                (int) (y + cameraY),
-                (int) (y + LEN + cameraY)
+                (int) (y + (double) 3 * LEN / 4 + cameraY),
+                (int) (y + (double) LEN / 4 + cameraY),
+                (int) (y + (double) 3 * LEN / 4 + cameraY)
         };
         return new Polygon(xPoints, yPoints, xPoints.length);
     }
@@ -36,7 +36,7 @@ public class DefaultSpike extends Hazard {
     @Override
     public Rectangle2D.Double getHazardHitbox(double cameraX, double cameraY) {
         double topLeftX = x + cameraX + ((double) (LEN - HITBOX_LEN) / 2);
-        double topLeftY = y + cameraY + TOP_HEIGHT;
+        double topLeftY = y + cameraY + (double) 3 * HITBOX_HEIGHT / 2;
         return new Rectangle2D.Double(topLeftX, topLeftY, HITBOX_LEN, HITBOX_HEIGHT);
     }
 
