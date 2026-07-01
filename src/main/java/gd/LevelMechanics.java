@@ -24,21 +24,27 @@ public class LevelMechanics extends JPanel {
     public double cameraX;
     public double cameraY;
 
-    private final Timer logicTimer;
     private final ArrayList<Timer> activeTimers = new ArrayList<>();
-    private boolean gamePaused;
 
     private final AudioPlayer songPlayer;
     private final AudioPlayer deathSFXPlayer;
     private final AudioPlayer newBestSFXPlayer;
 
-    public static int SCREEN_WIDTH = 1920;
-    public static int SCREEN_HEIGHT = 1080;
-    public static int RESPAWN_TIME = 500;
-    public static int GROUND_Y = 900;
-    public static double X_VELOCITY = 8.5;
-    public static int COYOTE_PIXELS = 10;
-    public static int SHOD_OUTLINE = 4;
+    public static final int SCREEN_WIDTH = 1920;
+    public static final int SCREEN_HEIGHT = 1080;
+
+    private volatile boolean running = true;
+    private volatile boolean gamePaused = false;
+
+    private static Thread gameThread;
+    public static final double PHYSICS_TPS = 240;
+    public static final double NS_PER_TICK = 1_000_000_000 / PHYSICS_TPS;
+
+    public static final int RESPAWN_TIME = 500;
+    public static final int GROUND_Y = 900;
+    public static final double X_VELOCITY = 2.15;
+    public static final int COYOTE_PIXELS = 10;
+    public static final int SHOD_OUTLINE = 4;
 
     private void handleCollisions() {
         for (int i = 0; i < level.objects.size(); i++) {
@@ -78,9 +84,9 @@ public class LevelMechanics extends JPanel {
         }
     }
 
+    @SuppressWarnings("NonAtomicOperationOnVolatileField")
     public LevelMechanics(int levelId) throws IOException {
         level = new Level(levelId);
-        gamePaused = false;
         player = new Player(level.spawnX, level.spawnY, level.spawnPhysics);
         level.objects.addFirst(new Ground(GROUND_Y, this, false));
         level.objects.addFirst(player);
@@ -119,6 +125,7 @@ public class LevelMechanics extends JPanel {
                         }
                         songPlayer.resume();
                     }
+                    repaint();
                 }
             }
             @Override
@@ -143,41 +150,68 @@ public class LevelMechanics extends JPanel {
                 }
             }
         });
-
-        logicTimer = getLogicTimer();
-        activeTimers.add(logicTimer);
-        logicTimer.start();
+        startGameLoop();
     }
 
-    private Timer getLogicTimer() {
-        return new Timer(1000 / Player.FPS, _ -> {
-            if (firstFrame) {
-                handleCollisions();
-                firstFrame = false;
-            }
-            player.previousY = player.y;
-            if (p1Pressed) {
-                player.jump();
-            }
-            cameraX -= X_VELOCITY;
-            for (GameObject obj : level.objects) {
-                obj.update();
-            }
-            handleCollisions();
-            if (player.isDead) {
-                logicTimer.stop();
-                deathSFXPlayer.play(false);
-                songPlayer.stop();
-                paintImmediately(0, 0, getWidth(), getHeight());
-                Timer respawnTimer = getRespawnTimer();
-                activeTimers.remove(logicTimer);
-                activeTimers.add(respawnTimer);
-                respawnTimer.start();
+    private void startGameLoop() {
+        running = true;
+        gameThread = new Thread(this::runGameLoop, "game-loop");
+        gameThread.setDaemon(true);
+        gameThread.start();
+    }
+
+    @SuppressWarnings("BusyWait")
+    private void runGameLoop() {
+        long previousTime = System.nanoTime();
+        double lag = 0.0;
+
+        while (running) {
+            long currentTime = System.nanoTime();
+            if (gamePaused) {
+                previousTime = currentTime;
             }
             else {
+                lag += currentTime - previousTime;
+                previousTime = currentTime;
+                while (lag >= NS_PER_TICK) {
+                    updatePhysics();
+                    lag -= NS_PER_TICK;
+                }
                 repaint();
             }
-        });
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                running = false;
+            }
+        }
+    }
+    private void updatePhysics() {
+        if (firstFrame) {
+            handleCollisions();
+            firstFrame = false;
+        }
+        player.previousY = player.y;
+        if (p1Pressed) {
+            player.jump();
+        }
+        cameraX -= X_VELOCITY;
+        for (GameObject obj : level.objects) {
+            obj.update();
+        }
+        handleCollisions();
+        if (player.isDead) {
+            running = false;
+            deathSFXPlayer.play(false);
+            songPlayer.stop();
+            SwingUtilities.invokeLater(() -> {
+                paintImmediately(0, 0, getWidth(), getHeight());
+                Timer respawnTimer = getRespawnTimer();
+                activeTimers.add(respawnTimer);
+                respawnTimer.start();
+            });
+        }
     }
 
     private Timer getRespawnTimer() {
@@ -194,9 +228,8 @@ public class LevelMechanics extends JPanel {
             cameraY = 0;
             ixKillerObject = -1;
             activeTimers.remove((Timer) e.getSource());
-            activeTimers.add(logicTimer);
             songPlayer.play(false);
-            logicTimer.start();
+            startGameLoop();
         });
         respawnTimer.setRepeats(false);
         return respawnTimer;
@@ -222,5 +255,24 @@ public class LevelMechanics extends JPanel {
         if (player.isDead) {
             player.drawHitbox(g, cameraX, cameraY);
         }
+        if (gamePaused) {
+            paintText(g, "Pusab", Color.WHITE, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        }
+    }
+
+    public static void paintText(Graphics g, String font, Color color, int x, int y) {
+        Graphics2D g2 = (Graphics2D) g;
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Pusab", Font.PLAIN, 72));
+        String text = "Game Paused";
+
+        FontMetrics metrics = g2.getFontMetrics();
+
+        int textWidth = metrics.stringWidth(text);
+        int drawX = x - (textWidth / 2);
+        int textHeight = metrics.getAscent();
+        int drawY = y + (textHeight / 2);
+
+        g.drawString("Game Paused", drawX, drawY);
     }
 }

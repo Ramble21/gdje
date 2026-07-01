@@ -14,9 +14,7 @@ public class Player extends GameObject {
     private Solid groundBeingTouched = null;
     public Physics physics;
 
-    protected static int FPS = 60;
-
-    public Player(int x, int y, Physics physics) {
+    public Player(double x, double y, Physics physics) {
         super(x, y);
         this.previousY = y;
         this.physics = physics;

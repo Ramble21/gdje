@@ -7,8 +7,9 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 public class BigCubePhysics extends Physics {
-    private static final double GRAVITY = 1.2; // pixels per frame squared
-    private static double JUMP_VELOCITY = -16; // // negative value = up (regular), positive value = reverse gravity
+    private static final double RISE_GRAVITY = 0.075; // gravity values are in pixels per frame squared
+    private static final double FALL_GRAVITY = 0.095;
+    private static double JUMP_VELOCITY = -4.25; // // negative value = up (regular), positive value = reverse gravity
 
     protected static int OUTLINE_LEN = 1;
     protected static int HAZARD_LEN = 50;
@@ -19,9 +20,10 @@ public class BigCubePhysics extends Physics {
     public void apply(Player player) {
         if (!player.isTouchingGround()) {
             double v = player.getVelocityY();
-            v += GRAVITY;
+            double g = (v < 0) ? RISE_GRAVITY : FALL_GRAVITY;
+            v += g;
             player.setVelocityY(v);
-            player.setY((int)(player.getY() + v));
+            player.setY(player.getY() + v);
         }
     }
 
