@@ -5,48 +5,49 @@ import gd.Main;
 import gd.Objects.Hazard;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class DefaultSpike extends Hazard {
 
     protected static int LEN = 50;
     protected static int HITBOX_LEN = 12;
     protected static int HITBOX_HEIGHT = 24;
-    protected static int TOP_HEIGHT = 15; // the height of the little top peak of the spike that doesnt have a hitbox
+    protected static int TOP_HEIGHT = 15; // the height of the little top peak of the spike that doesn't have a hitbox
     protected static int OUTLINE_LEN = 6;
 
     public DefaultSpike(int x, int y) {
         super(x, y);
     }
 
-    private Polygon getTriangle(int cameraX, int cameraY) {
+    private Polygon getTriangle(double cameraX, double cameraY) {
         int[] xPoints = {
-                x + cameraX,
-                x + LEN / 2 + cameraX,
-                x + LEN + cameraX
+                (int) (x + cameraX),
+                (int) (x + (double) LEN / 2 + cameraX),
+                (int) (x + LEN + cameraX)
         };
         int[] yPoints = {
-                y + LEN + cameraY,
-                y + cameraY,
-                y + LEN + cameraY
+                (int) (y + LEN + cameraY),
+                (int) (y + cameraY),
+                (int) (y + LEN + cameraY)
         };
         return new Polygon(xPoints, yPoints, xPoints.length);
     }
 
     @Override
-    public Rectangle getHazardHitbox(int cameraX, int cameraY) {
-        int topLeftX = x + cameraX + ((LEN - HITBOX_LEN) / 2);
-        int topLeftY = y + cameraY + TOP_HEIGHT;
-        return new Rectangle(topLeftX, topLeftY, HITBOX_LEN, HITBOX_HEIGHT);
+    public Rectangle2D.Double getHazardHitbox(double cameraX, double cameraY) {
+        double topLeftX = x + cameraX + ((double) (LEN - HITBOX_LEN) / 2);
+        double topLeftY = y + cameraY + TOP_HEIGHT;
+        return new Rectangle2D.Double(topLeftX, topLeftY, HITBOX_LEN, HITBOX_HEIGHT);
     }
 
-    public void drawHitbox(Graphics g, int cameraX, int cameraY) {
+    public void drawHitbox(Graphics g, double cameraX, double cameraY) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Main.HAZARD_COLOR);
         g2.fill(Main.toOutline(getHazardHitbox(cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
     }
 
     @Override
-    public void draw(Graphics g, int cameraX, int cameraY) {
+    public void draw(Graphics g, double cameraX, double cameraY) {
         Graphics2D g2 = (Graphics2D) g;
 
         Shape solid = getTriangle(cameraX, cameraY);

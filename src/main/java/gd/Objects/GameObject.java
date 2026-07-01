@@ -4,19 +4,19 @@ import java.awt.*;
 import java.util.Objects;
 
 public abstract class GameObject {
-    public int x;
-    public int y;
+    public double x;
+    public double y;
     public boolean isDead = false;
 
-    public GameObject(int x, int y) {
+    public GameObject(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
-    public int getY() {
+    public double getY() {
         return y;
     }
     public void setX(int x) {
@@ -26,8 +26,8 @@ public abstract class GameObject {
         this.y = y;
     }
 
-    public abstract void draw(Graphics g, int cameraX, int cameraY);
-    public abstract void drawHitbox(Graphics g, int cameraX, int cameraY);
+    public abstract void draw(Graphics g, double cameraX, double cameraY);
+    public abstract void drawHitbox(Graphics g, double cameraX, double cameraY);
     public abstract void update();
 
     @Override

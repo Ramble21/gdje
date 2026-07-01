@@ -5,45 +5,46 @@ import gd.Main;
 import gd.Objects.Solid;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class DefaultBlock extends Solid {
 
     protected static int LEN = 50;
     protected static int OUTLINE_LEN = 6;
 
-    public DefaultBlock(int x, int y) {
+    public DefaultBlock(double x, double y) {
         super(x, y);
     }
 
     @Override
-    public Rectangle getSolidHitbox(int cameraX, int cameraY) {
-        return new Rectangle(x + cameraX, y + cameraY, LEN, LEN);
+    public Rectangle2D.Double getSolidHitbox(double cameraX, double cameraY) {
+        return new Rectangle2D.Double(x + cameraX, y + cameraY, LEN, LEN);
     }
 
-    public void drawHitbox(Graphics g, int cameraX, int cameraY) {
+    public void drawHitbox(Graphics g, double cameraX, double cameraY) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Main.SOLID_COLOR);
         g2.fill(Main.toOutline(getSolidHitbox(cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
     }
 
     @Override
-    public int getHitboxHeight() {
+    public double getHitboxHeight() {
         return LEN;
     }
 
     @Override
-    public int getHitboxLength() {
+    public double getHitboxLength() {
         return LEN;
     }
 
     @Override
-    public void draw(Graphics g, int cameraX, int cameraY) {
+    public void draw(Graphics g, double cameraX, double cameraY) {
         Graphics2D g2 = (Graphics2D) g;
 
         Shape solid = getSolidHitbox(cameraX, cameraY);
         Rectangle bounds = solid.getBounds();
 
-        // weird shit in order to get a gradient, I have no idea how this works cus I copied it from chatgpt
+        // weird shit in order to get a gradient, I have no idea how this works cus I copied it from ChatGPT
         Color top = new Color(0, 0, 0, 255);
         Color bottom = new Color(0, 0, 0, 128);
         float[] fractions = {0f, 1f};

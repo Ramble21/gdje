@@ -1,12 +1,13 @@
 package gd.Objects;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public abstract class Hazard extends GameObject {
 
-    public Hazard(int x, int y) {
+    public Hazard(double x, double y) {
         super(x, y);
     }
 
-    public abstract Rectangle getHazardHitbox(int cameraX, int cameraY);
+    public abstract Rectangle2D.Double getHazardHitbox(double cameraX, double cameraY);
 }

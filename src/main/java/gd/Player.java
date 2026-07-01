@@ -9,7 +9,7 @@ import java.awt.*;
 public class Player extends GameObject {
 
     protected double velocityY = 0;
-    public int previousY;
+    public double previousY;
     private boolean touchingGround = false;
     private Solid groundBeingTouched = null;
     public Physics physics;
@@ -50,7 +50,7 @@ public class Player extends GameObject {
         untouchGround();
     }
 
-    public void drawHitbox(Graphics g, int cameraX, int cameraY) {
+    public void drawHitbox(Graphics g, double cameraX, double cameraY) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Main.HAZARD_COLOR);
         g2.fill(Main.toOutline(physics.getHazardHitbox(x, y, cameraX, cameraY), LevelMechanics.SHOD_OUTLINE));
@@ -59,7 +59,7 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void draw(Graphics g, int cameraX, int cameraY) {
+    public void draw(Graphics g, double cameraX, double cameraY) {
         physics.draw(g, x, y, cameraX, cameraY);
     }
 

@@ -21,8 +21,8 @@ public class LevelMechanics extends JPanel {
     private boolean firstFrame = true;
     private int ixKillerObject = -1;
     public boolean p1Pressed = false;
-    public int cameraX;
-    public int cameraY;
+    public double cameraX;
+    public double cameraY;
 
     private final Timer logicTimer;
     private final ArrayList<Timer> activeTimers = new ArrayList<>();
@@ -36,7 +36,7 @@ public class LevelMechanics extends JPanel {
     public static int SCREEN_HEIGHT = 1080;
     public static int RESPAWN_TIME = 500;
     public static int GROUND_Y = 900;
-    public static int X_VELOCITY = 9;
+    public static double X_VELOCITY = 8.5;
     public static int COYOTE_PIXELS = 10;
     public static int SHOD_OUTLINE = 4;
 

@@ -1,8 +1,11 @@
 package gd;
 
+import gd.GDPorting.GDLevelPorter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 
@@ -15,11 +18,17 @@ public class Main extends JPanel {
         frame.setSize(LevelMechanics.SCREEN_WIDTH, LevelMechanics.SCREEN_HEIGHT);
         frame.add(panel);
         frame.setVisible(true);
+        try {
+            GDLevelPorter.createTxt("CCLocalLevels.dat", "Stereo Madness 2");
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Area toOutline(Rectangle rect, int thickness) {
+    public static Area toOutline(Rectangle2D.Double rect, int thickness) {
         Area outer = new Area(rect);
-        Area inner = new Area(new Rectangle(
+        Area inner = new Area(new Rectangle2D.Double(
                 rect.x + thickness,
                 rect.y + thickness,
                 rect.width - thickness * 2,

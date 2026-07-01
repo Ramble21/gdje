@@ -3,6 +3,7 @@ import gd.Player;
 
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 
 public abstract class Physics {
     public abstract void apply(Player player);
@@ -11,12 +12,12 @@ public abstract class Physics {
     public abstract boolean isFlippedGravity();
     public abstract int getHitboxHeight();
 
-    public abstract Rectangle getHazardHitbox(int x, int y, int cameraX, int cameraY);
-    public abstract Rectangle getSolidHitbox(int x, int y, int cameraX, int cameraY);
-    public abstract Area getP1Area(int x, int y, int cameraX, int cameraY);
-    public abstract Area getP2Area(int x, int y, int cameraX, int cameraY);
-    public abstract Area getBlackArea(int x, int y, int cameraX, int cameraY);
-    public abstract void draw(Graphics g, int x, int y, int cameraX, int cameraY);
+    public abstract Rectangle2D.Double getHazardHitbox(double x, double y, double cameraX, double cameraY);
+    public abstract Rectangle2D.Double getSolidHitbox(double x, double y, double cameraX, double cameraY);
+    public abstract Area getP1Area(double x, double y, double cameraX, double cameraY);
+    public abstract Area getP2Area(double x, double y, double cameraX, double cameraY);
+    public abstract Area getBlackArea(double x, double y, double cameraX, double cameraY);
+    public abstract void draw(Graphics g, double x, double y, double cameraX, double cameraY);
 
 
     public static Physics getPhysics(String gamemode) {

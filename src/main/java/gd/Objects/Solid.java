@@ -1,14 +1,15 @@
 package gd.Objects;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public abstract class Solid extends GameObject {
 
-    public Solid(int x, int y) {
+    public Solid(double x, double y) {
         super(x, y);
     }
 
-    public abstract Rectangle getSolidHitbox(int cameraX, int cameraY);
-    public abstract int getHitboxHeight();
-    public abstract int getHitboxLength();
+    public abstract Rectangle2D.Double getSolidHitbox(double cameraX, double cameraY);
+    public abstract double getHitboxHeight();
+    public abstract double getHitboxLength();
 }

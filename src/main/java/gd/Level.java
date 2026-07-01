@@ -1,5 +1,6 @@
 package gd;
 
+import gd.GDPorting.GDLevelPorter;
 import gd.Objects.GameObject;
 import gd.Objects.Hazards.DefaultSpike;
 import gd.Objects.Solids.DefaultBlock;
@@ -11,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Level {
     protected final String name;
@@ -37,22 +39,31 @@ public class Level {
         spawnPhysics = Physics.getPhysics(player_arr[3]);
         for (int i = 6; i < lines.size(); i++) {
             String[] arr = lines.get(i).split("\\s+");
-            if (arr[0].equals("obj")) {
-                objects.add(getObject(arr[1], Integer.parseInt(arr[2]), Integer.parseInt(arr[3])));
+            int jeid = Integer.parseInt(arr[1]);
+            if (jeid == -1) {
+                continue;
             }
-            else if (!arr[0].startsWith("/")) {
-                deco.add(getObject(arr[1], Integer.parseInt(arr[2]), Integer.parseInt(arr[3])));
+            boolean h = arr[4].equals("h0");
+            boolean v = arr[5].equals("v0");
+            GameObject obj = getObject(jeid, Integer.parseInt(arr[2]), Integer.parseInt(arr[3]), h, v, Integer.parseInt(arr[6].substring(1)));
+            if (obj != null) {
+                if (arr[0].equals("obj")) {
+                    objects.add(obj);
+                } else {
+                    deco.add(obj);
+                }
             }
         }
     }
 
 
 
-    private GameObject getObject(String type, int x, int y) {
-        return switch (type) {
+    private GameObject getObject(int jeid, int x, int y, boolean flippedHoriz, boolean flippedVertic, int degreesRotated) {
+        String name = GDLevelPorter.JEIDToName.get(jeid);
+        return switch (name) {
             case "DefaultBlock" -> new DefaultBlock(x, y);
             case "DefaultSpike" -> new DefaultSpike(x, y);
-            default -> throw new RuntimeException("Unexpected object type: " + type);
+            default -> null;
         };
     }
 
